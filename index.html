@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLUDGE PIPE GAMES LTD | Indie Software Publishers & Game Dev</title>
+    <meta name="description" content="Independent software publishers and game development studio in London, UK. Crafting toxic and immersive interactive experiences.">
+    <style>
+        /* DESIGN SYSTEM: TOXIC INDIE STUDIO */
+        :root {
+            --bg-base: #0B0E0C;         /* Deep Sludge Black */
+            --bg-panel: #141A16;        /* Dark Moss Panel */
+            --toxic-green: #39FF14;     /* Neon Sludge Green */
+            --toxic-dark: #1A590A;      /* Deep Toxic Green */
+            --rust-orange: #C25E00;     /* Rusty Pipe Orange */
+            --text-main: #E2E8F0;       /* Off-White */
+            --text-muted: #8E9B93;      /* Muted Green-Gray */
+            --border-neon: rgba(57, 255, 20, 0.3);
+            
+            --font-display: 'Oswald', 'Impact', sans-serif;
+            --font-body: 'Inter', system-ui, sans-serif;
+            --font-code: 'Fira Code', 'Courier New', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-main);
+            background-color: var(--bg-base);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Abstract Sludge/Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(57, 255, 20, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -3;
+            pointer-events: none;
+        }
+
+        /* Ambient Toxic Glow */
+        .ambient-glow {
+            position: fixed;
+            bottom: -20vh; left: -10vw;
+            width: 70vw; height: 70vh;
+            background: radial-gradient(circle, rgba(57, 255, 20, 0.08) 0%, transparent 60%);
+            border-radius: 50%;
+            z-index: -2;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(11, 14, 12, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 2px solid var(--toxic-green);
+            box-shadow: 0 4px 20px rgba(57, 255, 20, 0.1);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* CSS Pipe/Sludge Icon */
+        .logo-icon {
+            width: 32px; height: 32px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo-icon::before {
+            content: '';
+            width: 20px; height: 20px;
+            border: 4px solid var(--rust-orange);
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+        }
+        .logo-icon::after {
+            content: '';
+            width: 8px; height: 16px;
+            background: var(--toxic-green);
+            border-radius: 0 0 4px 4px;
+            margin-top: -2px;
+            box-shadow: 0 0 10px var(--toxic-green);
+        }
+
+        .nav-links { display: flex; gap: 35px; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+        .nav-links a { text-decoration: none; color: var(--text-muted); transition: color 0.3s; }
+        .nav-links a:hover { color: var(--toxic-green); }
+
+        .btn-nav {
+            background: transparent;
+            color: var(--toxic-green) !important;
+            padding: 8px 24px;
+            border: 1px dashed var(--toxic-green);
+            border-radius: 2px;
+            transition: all 0.3s;
+            font-family: var(--font-code);
+        }
+        .btn-nav:hover { background: var(--toxic-green); color: var(--bg-base) !important; box-shadow: 0 0 15px rgba(57, 255, 20, 0.4); }
+
+        /* --- HERO SECTION --- */
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 140px 5% 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-family: var(--font-code);
+            background: rgba(57, 255, 20, 0.1);
+            color: var(--toxic-green);
+            padding: 8px 16px;
+            border-left: 4px solid var(--toxic-green);
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 5vw, 4.8rem);
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .text-neon {
+            color: var(--toxic-green);
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+        }
+
+        header p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 550px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--toxic-dark);
+            color: var(--text-main);
+            padding: 18px 40px;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 2px solid var(--toxic-green);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.2), 0 10px 30px rgba(57, 255, 20, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--toxic-green);
+            color: var(--bg-base);
+            box-shadow: 0 15px 40px rgba(57, 255, 20, 0.4);
+        }
+
+        /* Abstract Terminal Graphic */
+        .hero-graphic {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .terminal-panel {
+            width: 380px; height: 320px;
+            background: var(--bg-panel);
+            border: 2px solid var(--rust-orange);
+            padding: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(194, 94, 0, 0.2);
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-panel::before {
+            content: 'SLUDGE_ENGINE_v2';
+            position: absolute; top: -15px; left: 20px;
+            background: var(--bg-base); padding: 0 10px;
+            color: var(--rust-orange); font-family: var(--font-code); font-weight: bold;
+        }
+
+        .terminal-screen {
+            flex: 1;
+            background: #000;
+            border: 1px solid var(--border-neon);
+            padding: 15px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            color: var(--toxic-green);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: inset 0 0 20px rgba(57, 255, 20, 0.1);
+        }
+
+        .term-line { display: flex; gap: 10px; }
+        .term-line::before { content: '>'; color: var(--rust-orange); }
+
+        .loading-bar { width: 100%; height: 10px; background: rgba(57, 255, 20, 0.1); margin-top: auto; border: 1px solid var(--toxic-dark);}
+        .loading-fill { width: 65%; height: 100%; background: var(--toxic-green); box-shadow: 0 0 10px var(--toxic-green); animation: pulse 2s infinite;}
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* --- OPERATIONS GRID --- */
+        .section {
+            padding: 100px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            color: var(--text-main);
+            font-weight: 800;
+            text-transform: uppercase;
+            border-left: 5px solid var(--rust-orange);
+            padding-left: 20px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px;
+            transition: all 0.3s;
+            position: relative;
+            border-top: 4px solid var(--bg-panel);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-top-color: var(--toxic-green);
+            box-shadow: 0 10px 30px rgba(57, 255, 20, 0.05);
+        }
+
+        .card-icon {
+            font-family: var(--font-code);
+            font-size: 1.5rem;
+            color: var(--toxic-green);
+            margin-bottom: 25px;
+            display: inline-block;
+            background: rgba(57, 255, 20, 0.1);
+            padding: 10px 15px;
+            border: 1px dashed var(--toxic-dark);
+        }
+
+        .service-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- APP PROMO (CRITICAL FOR GOOGLE PLAY CONSOLE) --- */
+        .app-promo {
+            background: linear-gradient(135deg, var(--bg-panel) 0%, #000 100%);
+            border: 1px solid var(--border-neon);
+            padding: 80px 5%;
+            margin: 60px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .app-promo::after {
+            content: '';
+            position: absolute;
+            right: -100px; bottom: -100px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(57, 255, 20, 0.1) 0%, transparent 60%);
+            z-index: 0;
+        }
+
+        .app-text { position: relative; z-index: 1; }
+
+        .app-text h2 {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .app-list { list-style: none; margin: 30px 0; }
+        .app-list li {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            color: var(--text-muted);
+        }
+        .app-list li::before {
+            content: '>';
+            font-family: var(--font-code);
+            color: var(--toxic-green);
+            font-weight: bold;
+        }
+
+        /* Mobile Device Mockup for Software/Game Launcher */
+        .mockup-phone {
+            width: 100%;
+            max-width: 320px;
+            height: 600px;
+            margin: 0 auto;
+            background: #000;
+            border: 6px solid #222;
+            border-radius: 35px;
+            padding: 15px;
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.15);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 2;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 25px;
+            background: #222;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            flex: 1;
+            background: var(--bg-panel);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(57, 255, 20, 0.2);
+        }
+
+        .ui-header {
+            padding: 25px 20px 15px;
+            background: #000;
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--toxic-green);
+            border-bottom: 1px dashed var(--toxic-dark);
+            letter-spacing: 2px;
+        }
+
+        .ui-content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .game-banner {
+            height: 140px;
+            background: linear-gradient(45deg, #111, #1A590A);
+            border: 1px solid var(--border-neon);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .ui-module {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 15px;
+            border-left: 2px solid var(--rust-orange);
+        }
+        
+        .ui-module-title { font-family: var(--font-code); font-size: 0.7rem; color: var(--text-muted); margin-bottom: 5px; }
+        .ui-module-val { font-size: 1.1rem; font-weight: bold; color: var(--text-main); }
+
+        .ui-btn {
+            margin-top: auto;
+            background: transparent;
+            color: var(--toxic-green);
+            text-align: center;
+            padding: 15px;
+            font-family: var(--font-display);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid var(--toxic-green);
+        }
+
+        /* --- VERIFICATION REGISTRY (EXACT D&B MATCH) --- */
+        .registry-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+        }
+
+        .data-panel {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .data-panel::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--rust-orange);
+        }
+
+        .data-row {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(255,255,255,0.05);
+        }
+        .data-row:last-child { border: none; margin: 0; padding: 0; }
+
+        .data-label {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--toxic-green);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .data-value {
+            font-size: 1.05rem;
+            color: var(--text-main);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 16px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            font-family: var(--font-body);
+            color: var(--text-main);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--toxic-green);
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.1);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #000;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 80px 5% 40px;
+            margin-top: 80px;
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            color: var(--rust-orange);
+            font-family: var(--font-display);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 12px; }
+        .footer-col a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            font-family: var(--font-code);
+        }
+        .footer-col a:hover { color: var(--text-main); }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #555;
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 992px) {
+            .hero-grid, .app-promo, .registry-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hero-graphic { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+
+    <nav>
+        <div class="logo">
+            <div class="logo-icon"></div>
+            SLUDGE PIPE GAMES
+        </div>
+        <div class="nav-links">
+            <a href="#services">System Design</a>
+            <a href="#publishing">Digital Releases</a>
+            <a href="#registry">Database</a>
+            <a href="#contact" class="btn-nav">Terminal</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="hero-grid">
+            <div>
+                <div class="hero-tag">System Design & Prepackaged Software</div>
+                <h1>Developing the <br><span class="text-neon">Toxic Unknown</span>.</h1>
+                <p>SLUDGE PIPE GAMES LTD is an independent game development studio and software publisher based in London, UK. We build immersive prepackaged software and atmospheric digital experiences.</p>
+                <a href="#publishing" class="btn-primary">Initialize Games</a>
+            </div>
+            
+            <div class="hero-graphic">
+                <div class="terminal-panel">
+                    <div class="terminal-screen">
+                        <div class="term-line">init sludge.boot()</div>
+                        <div class="term-line">loading engine_v2... [OK]</div>
+                        <div class="term-line" style="color: var(--text-main);">compile software_publisher...</div>
+                        <div class="term-line">connecting to server...</div>
+                        <div class="loading-bar"><div class="loading-fill"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="services" class="section">
+        <div class="section-header">
+            <h2>Core Infrastructure</h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="card-icon">{PUB_API}</div>
+                <h3>Software Publishers</h3>
+                <p>Officially licensed Software Publishers. We manage the development, deployment, and distribution of digital applications and games to global app marketplaces.</p>
+            </div>
+            <div class="service-card">
+                <div class="card-icon">&lt;SYS_CORE&gt;</div>
+                <h3>Computer Systems Design</h3>
+                <p>Executing high-level Computer Systems Design and Related Services to architect secure backend environments and multiplayer server structures.</p>
+            </div>
+            <div class="service-card">
+                <div class="card-icon">[PKG_EXE]</div>
+                <h3>Prepackaged Software</h3>
+                <p>Specializing in the creation of Prepackaged software. We deliver polished, consumer-ready digital entertainment that runs flawlessly across mobile platforms.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="publishing" class="section" style="padding-top: 0;">
+        <div class="app-promo">
+            <div class="app-text">
+                <div class="hero-tag" style="border-color: var(--toxic-green); color: var(--toxic-green); background: transparent;">Google Play Developer Entity</div>
+                <h2>Sludge Hub Portal</h2>
+                <p style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 15px; font-weight: 600;">
+                    As an official Software Publisher, <strong>SLUDGE PIPE GAMES LTD develops and distributes our prepackaged interactive software directly via mobile app stores.</strong>
+                </p>
+                <p style="color: var(--text-muted); line-height: 1.7;">
+                    Our digital portfolio is managed through our proprietary mobile applications. The Google Play ecosystem serves as the primary distribution channel for our mobile games, companion applications, and proprietary software tools designed by our systems design team.
+                </p>
+                
+                <ul class="app-list">
+                    <li>Direct distribution of internally developed mobile games.</li>
+                    <li>Secure in-app purchases and digital licensing verification.</li>
+                    <li>Over-the-air content updates for prepackaged gaming software.</li>
+                    <li>Integration with Google Play Games services for leaderboards.</li>
+                </ul>
+            </div>
+            
+            <div class="mockup-phone">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="ui-header">SLUDGE_OS</div>
+                    <div class="ui-content">
+                        
+                        <div class="game-banner">
+                            MUTANT SEWER
+                        </div>
+
+                        <div class="ui-module" style="border-left-color: var(--toxic-green);">
+                            <div class="ui-module-title">PUBLISHER</div>
+                            <div class="ui-module-val" style="color: var(--toxic-green);">SLUDGE PIPE GAMES</div>
+                        </div>
+
+                        <div class="ui-module" style="border-left-color: var(--rust-orange);">
+                            <div class="ui-module-title">SOFTWARE STATUS</div>
+                            <div class="ui-module-val" style="font-family: var(--font-body); font-weight: normal; color: var(--text-muted);">Version 2.0.4 - Installed</div>
+                        </div>
+
+                        <div class="ui-btn">LAUNCH EXECUTABLE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="registry" class="section">
+        <div class="section-header">
+            <h2>Corporate Database Registry</h2>
+        </div>
+        <div class="registry-grid">
+            
+            <div class="data-panel">
+                <div class="data-row">
+                    <span class="data-label">Legal Entity Name</span>
+                    <span class="data-value">SLUDGE PIPE GAMES LTD</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Industry Classification Profile</span>
+                    <span class="data-value" style="font-size: 0.95rem; line-height: 1.6;">
+                        • Software Publishers<br>
+                        • Computer Systems Design and Related Services<br>
+                        • Publishing Industries<br>
+                        • Information<br>
+                        • Prepackaged software
+                    </span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Registered Headquarters Address</span>
+                    <span class="data-value" style="font-size: 0.95rem;">
+                        71-75 Shelton Street LONDON<br>
+                        WC2H 9JQ United Kingdom
+                    </span>
+                </div>
+                <div class="data-row" style="border: none;">
+                    <span class="data-label">Official Developer Endpoint</span>
+                    <span class="data-value" style="color: var(--toxic-green);">info@sludgepipegames.cloud</span>
+                </div>
+            </div>
+
+            <div id="contact">
+                <h3 style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 20px; text-transform: uppercase;">System Support</h3>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">Contact our development team to report bugs in our prepackaged software, inquire about publishing rights, or request technical support for mobile applications.</p>
+                
+                <form onsubmit="event.preventDefault();">
+                    <input type="text" placeholder="Player Name / License ID" required>
+                    <input type="email" placeholder="Contact Email Address" required>
+                    <textarea placeholder="Describe your software inquiry or support request..." rows="5" required></textarea>
+                    <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer; box-shadow: none;">Submit Transmission</button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 20px; font-size: 1.2rem;">
+                    <div class="logo-icon" style="width: 20px; height: 20px; box-shadow: none; border-width: 2px;"></div>
+                    SLUDGE PIPE GAMES
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Architecting, designing, and publishing toxic prepackaged software and interactive entertainment in the UK.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Digital Platforms</h4>
+                <ul>
+                    <li><a href="#">Google Play Publisher Status</a></li>
+                    <li><a href="#">Report Software Bug</a></li>
+                    <li><a href="#" style="color: var(--text-main); font-weight: bold;">Request Account & Data Deletion</a></li>
+                    <li><a href="#">Game Server Status</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Legal & Compliance</h4>
+                <ul>
+                    <li><a href="#">End User License Agreement (EULA)</a></li>
+                    <li><a href="#">Software Publishing Terms</a></li>
+                    <li><a href="#">Privacy Policy (GDPR)</a></li>
+                    <li><a href="#">In-App Purchase Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 SLUDGE PIPE GAMES LTD. Registered in the UK. System Functional.
+        </div>
+    </footer>
+
+</body>
+</html>
